@@ -10,6 +10,14 @@ define xap::configure(
         ensure => directory,
     } ->
 
+    file {"${xap::params::config_dir}/deploy":
+        ensure => directory,
+    }
+
+    file {"${xap::params::config_dir}/work":
+        ensure => directory,
+    }
+
     # configure setenv
     file{"${xap::params::config_dir}/setenv.${xap::params::extension}":
       ensure  => present,

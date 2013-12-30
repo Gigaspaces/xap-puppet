@@ -39,7 +39,7 @@ class xap::params {
   }
 
   #LOOKUPLOCATORS value
-  $lookup_locators = ''
+  $lookup_locators = '192.168.141.130'
 
   # LOOKUPGROUPS value
   $lookup_groups ="gigaspaces-9.6.2-XAPPremium-ga"
@@ -57,8 +57,8 @@ class xap::params {
 
   # configure System properties
   $com_gigaspaces_logger_RollingFileHandler_filename_pattern=''
-  $com_gs_deploy=''
-  $com_gs_work=''
+  $com_gs_deploy="${config_dir}/deploy"
+  $com_gs_work="${config_dir}/work"
   $com_gigaspaces_lib_platform_ext=''
   $com_gs_pu_common=''
   $com_gigaspaces_grid_gsa_config_directory=''
