@@ -1,0 +1,32 @@
+./params.pp:1:class xap::params {
+./configure.pp:1:define xap::configure(
+./configure.pp:4:    file {"${xap::params::config_dir}":
+./configure.pp:9:    file{"${xap::params::config_dir}/setenv.${xap::params::extension}":
+./configure.pp:12:      content =>  template("${module_name}/setenv.${xap::params::extension}.erb"),
+./configure.pp:16:    file{"${xap::params::config_dir}/gs-agent.${xap::params::extension}":
+./configure.pp:19:      content =>  template("${module_name}/gs-agent.${xap::params::extension}.erb"),
+./configure.pp:23:    file{"${xap::params::config_dir}/gs.${xap::params::extension}":
+./configure.pp:26:      content =>  template("${module_name}/gs.${xap::params::extension}.erb"),
+./configure.pp:30:    file{"${xap::params::config_dir}/gs-webui.${xap::params::extension}":
+./configure.pp:33:      content =>  template("${module_name}/gs-webui.${xap::params::extension}.erb"),
+./linux_install.pp:1:define xap::linux_install(
+./linux_install.pp:12:                      sourcePath            => "puppet:///modules/xap"
+./init.pp:1:class xap{
+./init.pp:3:  require xap::params
+./init.pp:7:      xap::windows_install{'windows-xap-install':}
+./init.pp:10:      xap::linux_install{'linux-xap-install':}
+./init.pp:15:  file { "${xap::params::gigaspaces_xap_target}" :
+./init.pp:16:    source  => "puppet:///modules/${module_name}/${xap::params::gigaspaces_xap_source}",
+./init.pp:24:  file { "${xap::params::license_target}":
+./init.pp:29:  xap::configure{'configure xap environment':}
+./windows_install.pp:1:define xap::windows_install(
+./windows_install.pp:4:  require xap::params
+./windows_install.pp:7:  file{"c:\\${xap::params::jdk_file}":
+./windows_install.pp:12:    source =>  "puppet:///modules/${module_name}/${xap::params::jdk_file}",
+./windows_install.pp:16:  windows_package { "Java ${xap::params::jdk_version} Update ${xap::params::jdk_update}":
+./windows_install.pp:18:    source          => "c:\\${xap::params::jdk_file}",
+./install.pp:1:define xap::install(
+./install.pp:9:  file {"/usr/src/gigaspaces-xap-${product}-${version}-${release}-${build}.zip":
+./install.pp:11:    source =>  "puppet:///modules/${module_name}/gigaspaces-xap-${product}-${version}-${release}-${build}.zip",
+./install.pp:15:  archive::extract { "gigaspaces-xap-${product}-${version}-${release}-${build}":
+./install.pp:19:    require   => File["/usr/src/gigaspaces-xap-${product}-${version}-${release}-${build}.zip"],
