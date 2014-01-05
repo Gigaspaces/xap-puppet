@@ -37,6 +37,8 @@ class xap::params {
     'windows' => 'c:/gigaspaces',
     default   => '/opt/gigaspaces',
   }
+  
+  $gs_webui_war_file = "gs-webui-9.6.2-9900-RELEASE.war"
 
   #LOOKUPLOCATORS value
   $lookup_locators = '192.168.141.130'
@@ -56,22 +58,22 @@ class xap::params {
   }
 
   # configure System properties
-  $com_gigaspaces_logger_RollingFileHandler_filename_pattern=''
+  $com_gigaspaces_logger_RollingFileHandler_filename_pattern="${config_dir}/logs/"
   $com_gs_deploy="${config_dir}/deploy"
   $com_gs_work="${config_dir}/work"
-  $com_gigaspaces_lib_platform_ext=''
-  $com_gs_pu_common=''
-  $com_gigaspaces_grid_gsa_config_directory=''
-  $java_util_logging_config_file=''
-  $com_gs_transport_protocol_lrmi_bind_port=''
-  $com_gs_transport_protocol_lrmi_max_conn_pool=''
+  $com_gigaspaces_lib_platform_ext="${gigaspaces_xap_target}/lib/platform/ext"
+  $com_gs_pu_common="${gigaspaces_xap_target}/lib/optional/pu-common"
+  $com_gigaspaces_grid_gsa_config_directory="${gigaspaces_xap_target}/config/gsa"
+  $java_util_logging_config_file="${gigaspaces_xap_target}/config/gs_logging.properties"
+  $com_gs_transport_protocol_lrmi_bind_port='7000-7500'
+  $com_gs_transport_protocol_lrmi_max_conn_pool=1024
   $com_gs_transport_protocol_lrmi_max_threads=512
-  $com_sun_jini_reggie_initialUnicastDiscoveryPort=''
+  $com_sun_jini_reggie_initialUnicastDiscoveryPort=4166
   $com_gs_zones=''
   $com_gs_grid_secured=false
 
   # JAVA_OPTION
-  $Xloggc = "${config_dir}/log/gc.log"
+  $Xloggc = "${config_dir}/logs/gc.log"
 
   # GSC_JAVA_OPTIONS
   $Xms = '300m'

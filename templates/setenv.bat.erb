@@ -54,7 +54,7 @@ if "%VERBOSE%" == "" (
 @rem Note - If the JAVA_HOME is a path which contains white spaces, you need to surround the 
 @rem JAVACMD, JAVACCMD and JAVAWCMD variable with quotes
 
-set JAVA_HOME="\"<%= scope['xap::params::java_home'] %>\""
+set JAVA_HOME=<%= scope['xap::params::java_home'] %>
 @rem - Reset JAVA_HOME unless JAVA_HOME is pre-defined.
 if "%JAVA_HOME%" == "" goto noJavaHome
 if not exist "%JAVA_HOME%\bin\java.exe" goto noJavaHome
@@ -72,7 +72,7 @@ set JAVACCMD=javac
 set JAVAWCMD=javaw
 
 :endOfJavaHome
-set JSHOMEDIR="<%= scope['xap::params::gigaspaces_xap_target'] %>"
+set JSHOMEDIR=<%= scope['xap::params::gigaspaces_xap_target'] %>
 if "%JSHOMEDIR%" == "" set JSHOMEDIR=%~dp0\..
 
 if "%1" == "javaversion"  (
@@ -91,7 +91,7 @@ if "%EXT_JAVA_OPTIONS%" == "" (
 set EXT_JAVA_OPTIONS=-Xmx512m
 )
 
-set JAVA_OPTIONS=" -verbose:gc -server -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:<%= scope['xap::params::Xloggc'] %> -Dcom.gs.deploy=<%= scope['xap::params::com_gs_deploy'] %> -Dcom.gs.work=<%= scope['xap::params::com_gs_work']%> -Dcom.gs.transport_protocol.lrmi.max-threads=<%= scope['xap::params::com_gs_transport_protocol_lrmi_max_threads']%> -Dcom.gs.grid.secured=<%= scope['xap::params::com_gs_grid_secured']%>"
+set JAVA_OPTIONS=-verbose:gc -server -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:<%= scope['xap::params::Xloggc'] %> -Dcom.gigaspaces.logger.RollingFileHandler.filename-pattern=<%= scope['xap::params::com_gigaspaces_logger_RollingFileHandler_filename_pattern'] %> -Dcom.gs.deploy=<%= scope['xap::params::com_gs_deploy'] %> -Dcom.gs.work=<%= scope['xap::params::com_gs_work'] %> -Dcom.gigaspaces.lib.platform.ext=<%= scope['xap::params::com_gigaspaces_lib_platform_ext'] %> -Dcom.gs.pu-common=<%= scope['xap::params::com_gs_pu_common'] %> -Dcom.gigaspaces.grid.gsa.config-directory=<%= scope['xap::params::com_gigaspaces_grid_gsa_config_directory'] %> -Djava.util.logging.config.file=<%= scope['xap::params::java_util_logging_config_file'] %> -Dcom.gs.transport.protocol.lrmi.bind-port=<%= scope['xap::params::com_gs_transport_protocol_lrmi_bind_port'] %> -Dcom.gs.transport.protocol.lrmi.max-conn-pool=<%= scope['xap::params::com_gs_transport_protocol_lrmi_max_conn_pool'] %> -Dcom.gs.transport.protocol.lrmi.max-threads=<%= scope['xap::params::com_gs_transport_protocol_lrmi_max_threads'] %> -Dcom.sun.jini.reggie.initialUnicastDiscoveryPort=<%= scope['xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort'] %> -Dcom.gs.zones=<%= scope['xap::params::com_gs_zones'] %> -Dcom.gs.grid.secured=<%= scope['xap::params::com_gs_grid_secured'] %>
 
 if DEFINED JAVA_OPTIONS goto continue
 @rem Reset JAVA_VM_NAME/JAVA_VERSION unless JAVA_VM_NAME/JAVA_VERSION is defined already.
@@ -193,12 +193,12 @@ set PLATFORM_VERSION=9.0
 set POLICY="%JSHOMEDIR%\policy\policy.all"
 
 if "%LOOKUPGROUPS%" == ""  (
-set LOOKUPGROUPS="<%= scope['xap::params::lookup_groups'] %>"
+set LOOKUPGROUPS=<%= scope['xap::params::lookup_groups'] %>
 )
 set LOOKUP_GROUPS_PROP=-Dcom.gs.jini_lus.groups=%LOOKUPGROUPS%
 
 if "%LOOKUPLOCATORS%" == ""  (
-set LOOKUPLOCATORS="<%= scope['xap::params::lookup_locators']%>" 
+set LOOKUPLOCATORS=<%= scope['xap::params::lookup_locators']%> 
 )
 set LOOKUP_LOCATORS_PROP=-Dcom.gs.jini_lus.locators=%LOOKUPLOCATORS%
 
@@ -206,7 +206,7 @@ rem The NIC_ADDR represents the specific network interface card IP address or th
 rem Note - When using Multi Network-Interface cards, explicitly set it with the NIC address (e.g. 192.168.0.2)
 rem as it is the value of the the java.rmi.server.hostname system property. (see RMI_OPTIONS)
 if "%NIC_ADDR%" == "" (
-set NIC_ADDR="<%= scope['::ipaddress'] %>"
+set NIC_ADDR=<%= scope['::ipaddress'] %>
 )
 
 rem RMI properties

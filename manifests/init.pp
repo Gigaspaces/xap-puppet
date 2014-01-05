@@ -22,9 +22,31 @@ class xap{
 
   # download gslicense.xml to client
   file { "${xap::params::license_target}":
-    ensure  => present,
-    content => template("${module_name}/gslicense.xml.erb"),
   } ~>
 
   xap::configure{'configure xap environment':}
+
+
+}
+
+class xap::manager inherits xap {
+  # run gs-agent 
+  xap::gs_agent{'xap_manager':
+    name => 'lus_1_gsm_1',
+    lus  => 1,
+    gsm  => 1,
+  }
+}
+
+class xap::container inherits xap {
+  
+  xap::gs_agent{'xap_container':
+    name => 'gsc_1',
+    gsc  => 1,
+  }
+}
+
+class xap::webui inherits xap {
+
+  xap::web_ui {"xap_webui":}
 }
