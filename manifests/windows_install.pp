@@ -1,7 +1,7 @@
 define xap::windows_install(
 ) {
 
-  require xap::params
+  #require xap::params
 
   # copy target installation jdk file
   file{"c:\\${xap::params::jdk_file}":

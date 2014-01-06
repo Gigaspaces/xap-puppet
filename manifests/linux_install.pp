@@ -1,7 +1,7 @@
 define xap::linux_install(
 ) {
     include jdk7
-    require xap::params
+    #require xap::params
 
     $x64 = $hardwaremodel ? {
       'i686'   => false,
