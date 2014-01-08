@@ -15,15 +15,9 @@ class xap{
   file { "${xap::params::gigaspaces_xap_target}" :
     source  => "puppet:///modules/${module_name}/${xap::params::gigaspaces_xap_source}",
     recurse => true,
-    purge   => true,
-    force   => true,
     ensure  => directory,
   } ~>
-
-  # download gslicense.xml to client
-  file { "${xap::params::license_target}":
-  } ~>
-
+  
   xap::configure{'configure xap environment':}
 
 

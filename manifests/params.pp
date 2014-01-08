@@ -37,7 +37,7 @@ class xap::params {
     'windows' => 'c:/gigaspaces',
     default   => '/opt/gigaspaces',
   }
-  
+
   $gs_webui_war_file = "gs-webui-9.6.2-9900-RELEASE.war"
 
   #LOOKUPLOCATORS value

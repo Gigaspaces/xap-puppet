@@ -11,7 +11,7 @@ define xap::gs_agent(
 
   $command_line = $kernel ? {
     'windows' => "cmd.exe /c start /min ${xap::params::config_dir}/bin/gs-agent.bat ${args} & type NUL > ${xap::params::config_dir}/bin/gs-agent.lock",
-    default   => "${xap::params::config_dir}/bin/gs-agent.sh ${args} > /dev/null 2>&1 & ! cat > ${xap::params::config_dir}/bin/gs-agent.lock"
+    default   => "${xap::params::config_dir}/bin/gs-agent.sh ${args} > /dev/null 2>&1 & ! cat > ${xap::params::config_dir}/bin/gs-agent.lock & ! return 0"
   }
 
   $path_sperator = $kernel ? {
