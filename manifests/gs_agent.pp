@@ -8,6 +8,18 @@ define xap::gs_agent(
 ) {
   $registryPort = $xap::params::com_gigaspaces_system_registryPort + $global_lus + $lus + $global_gsm + $gsm + $gsc -1
 
+  $args = "gsa.global.lus ${global_lus} gsa.lus ${lus} gsa.global.gsm ${global_gsm} gsa.gsm ${gsm} gsa.gsc ${gsc}"
+
+  $command_line = $kernel ? {
+    'windows' => "cmd.exe /c start /min ${xap::params::config_dir}/bin/gs-agent.bat ${args} & type NUL > ${xap::params::config_dir}/bin/gs-agent.lock",
+    default   => "${xap::params::config_dir}/bin/gs-agent.sh ${args} > /dev/null 2>&1 & ! cat > ${xap::params::config_dir}/bin/gs-agent.lock & ! return 0"
+  }
+
+  $path_sperator = $kernel ? {
+    'windows' => ';',
+    default   => ':',
+  }
+
   if $kernel == 'windows' {
     # lookup service rule
     windows_firewall::exception { 'LookupService':
@@ -19,7 +31,7 @@ define xap::gs_agent(
       local_port   => "${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}",
       display_name =>  'Lookup service',
       description  => "Inbound rule for Lookup service. [UDP ${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}]",
-    }
+    } ->
     # webster rule
     windows_firewall::exception { 'Webster':
       ensure     => present,
@@ -30,7 +42,7 @@ define xap::gs_agent(
       local_port => "${xap::params::com_gigaspaces_start_httpPort}",
       display_name =>  'Webster',
       description  => "Inbound rule for Webster. [TCP ${xap::params::com_gigaspaces_start_httpPort}]",
-    }
+    } ->
     # LRMI port range rule
      windows_firewall::exception { 'LRMI':
       ensure     => present,
@@ -41,7 +53,7 @@ define xap::gs_agent(
       local_port => "${xap::params::com_gs_transport_protocol_lrmi_bind_port_start}-${xap::params::com_gs_transport_protocol_lrmi_bind_port_end}",
       display_name =>  'lrmi bind port',
       description  => "Inbound rule for lrmi bind port. [TCP ${xap::params::com_gs_transport_protocol_lrmi_bind_port_start}-${xap::params::com_gs_transport_protocol_lrmi_bind_port_end}]",
-    }
+    } ->
     # JMX port range rule
         windows_firewall::exception { 'JMXPORTS':
       ensure     => present,
@@ -52,44 +64,32 @@ define xap::gs_agent(
       local_port => "${xap::params::com_gigaspaces_system_registryPort}-${registryPort}",
       display_name =>  'JMX registry ports',
       description  => "Inbound rule for JMX registry ports. [TCP {xap::params::com_gigaspaces_system_registryPort}-${registryPort}]",
-    }
+    } 
   } else {
     # lookup service rule
     firewall{"000 open port ${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}":
       port   => "${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}",
       proto  => udp,
       action => accept,
-    }
+    } ->
     # webster rule
     firewall{"001 open port ${xap::params::com_gigaspaces_start_httpPort}":
       port   => "${xap::params::com_gigaspaces_start_httpPort}",
       proto  => tcp,
       action => accept,
-    }
+    } ->
     # LRMI port range rule
     firewall{"002 open port ${xap::params::com_gs_transport_protocol_lrmi_bind_port_start}-${xap::params::com_gs_transport_protocol_lrmi_bind_port_end}":
       port   => "${xap::params::com_gs_transport_protocol_lrmi_bind_port_start}-${xap::params::com_gs_transport_protocol_lrmi_bind_port_end}",
       proto  => tcp,
       action => accept,
-    }
+    } ->
     # JMX port range rule
     firewall{"003 open port ${xap::params::com_gigaspaces_system_registryPort}-${registryPort}":
       port   => "${xap::params::com_gigaspaces_system_registryPort}-${registryPort}",
       proto  => tcp,
       action => accept,
     }
-  }
-
-  $args = "gsa.global.lus ${global_lus} gsa.lus ${lus} gsa.global.gsm ${global_gsm} gsa.gsm ${gsm} gsa.gsc ${gsc}"
-
-  $command_line = $kernel ? {
-    'windows' => "cmd.exe /c start /min ${xap::params::config_dir}/bin/gs-agent.bat ${args} & type NUL > ${xap::params::config_dir}/bin/gs-agent.lock",
-    default   => "${xap::params::config_dir}/bin/gs-agent.sh ${args} > /dev/null 2>&1 & ! cat > ${xap::params::config_dir}/bin/gs-agent.lock & ! return 0"
-  }
-
-  $path_sperator = $kernel ? {
-    'windows' => ';',
-    default   => ':',
   }
 
   # run gs-agent

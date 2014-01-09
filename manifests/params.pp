@@ -73,7 +73,7 @@ class xap::params {
   $com_gs_pu_common="${gigaspaces_xap_target}/lib/optional/pu-common"
   $com_gigaspaces_grid_gsa_config_directory="${gigaspaces_xap_target}/config/gsa"
   $java_util_logging_config_file="${gigaspaces_xap_target}/config/gs_logging.properties"
-  $com_gs_transport_protocol_lrmi_bind_port="${com_gs_transport_protocol_lrmi_bind_port_start}-${com_gs_transport_protocol_lrmi_bind_port_start}"
+  $com_gs_transport_protocol_lrmi_bind_port="${com_gs_transport_protocol_lrmi_bind_port_start}-${com_gs_transport_protocol_lrmi_bind_port_end}"
   $com_gs_transport_protocol_lrmi_max_conn_pool=1024
   $com_gs_transport_protocol_lrmi_max_threads=512
   #$com_sun_jini_reggie_initialUnicastDiscoveryPort=4174
