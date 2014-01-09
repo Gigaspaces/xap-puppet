@@ -76,7 +76,7 @@ class xap::params {
   $com_gs_transport_protocol_lrmi_bind_port="${com_gs_transport_protocol_lrmi_bind_port_start}-${com_gs_transport_protocol_lrmi_bind_port_start}"
   $com_gs_transport_protocol_lrmi_max_conn_pool=1024
   $com_gs_transport_protocol_lrmi_max_threads=512
-  $com_sun_jini_reggie_initialUnicastDiscoveryPort=4166
+  #$com_sun_jini_reggie_initialUnicastDiscoveryPort=4174
   $com_gs_zones=''
   $com_gs_grid_secured=false
 

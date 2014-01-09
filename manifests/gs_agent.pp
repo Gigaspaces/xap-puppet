@@ -6,7 +6,7 @@ define xap::gs_agent(
   $gsm        = 0,
   $gsc        = 0,
 ) {
-  $registryPort = $global_lus + $lus + $global_gsm + $gsm + $gsc -1
+  $registryPort = $xap::params::com_gigaspaces_system_registryPort + $global_lus + $lus + $global_gsm + $gsm + $gsc -1
 
   if $kernel == 'windows' {
     # lookup service rule
@@ -48,13 +48,13 @@ define xap::gs_agent(
   } else {
     # lookup service rule
     firewall{"000 open port ${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}":
-      port   => ${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort},
+      port   => "${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}",
       proto  => udp,
       action => accept,
     }
     # webster rule
     firewall{"001 open port ${xap::params::com_gigaspaces_start_httpPort}":
-      port   => ${xap::params::com_gigaspaces_start_httpPort},
+      port   => "${xap::params::com_gigaspaces_start_httpPort}",
       proto  => tcp,
       action => accept,
     }

@@ -12,7 +12,7 @@ define xap::web_ui (
     }
   } else {
     firewall{"100 open port ${xap::params::com_gs_webui_port}":
-      port   => ${xap::params::com_gs_webui_port},
+      port   => "${xap::params::com_gs_webui_port}",
       proto  => tcp,
       action => accept,
     }
