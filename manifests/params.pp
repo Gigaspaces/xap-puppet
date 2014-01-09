@@ -57,6 +57,14 @@ class xap::params {
     default => "/usr/java/${jdk_home}",
   }
 
+  # configure firewall\
+  $com_sun_jini_reggie_initialUnicastDiscoveryPort=4174
+  $com_gs_transport_protocol_lrmi_bind_port_start=7000
+  $com_gs_transport_protocol_lrmi_bind_port_end=7500
+  $com_gigaspaces_system_registryPort=10098
+  $com_gigaspaces_start_httpPort=9813
+  $com_gs_webui_port=8099
+
   # configure System properties
   $com_gigaspaces_logger_RollingFileHandler_filename_pattern="${config_dir}/logs/"
   $com_gs_deploy="${config_dir}/deploy"
@@ -65,7 +73,7 @@ class xap::params {
   $com_gs_pu_common="${gigaspaces_xap_target}/lib/optional/pu-common"
   $com_gigaspaces_grid_gsa_config_directory="${gigaspaces_xap_target}/config/gsa"
   $java_util_logging_config_file="${gigaspaces_xap_target}/config/gs_logging.properties"
-  $com_gs_transport_protocol_lrmi_bind_port='7000-7500'
+  $com_gs_transport_protocol_lrmi_bind_port="${com_gs_transport_protocol_lrmi_bind_port_start}-${com_gs_transport_protocol_lrmi_bind_port_start}"
   $com_gs_transport_protocol_lrmi_max_conn_pool=1024
   $com_gs_transport_protocol_lrmi_max_threads=512
   $com_sun_jini_reggie_initialUnicastDiscoveryPort=4166
