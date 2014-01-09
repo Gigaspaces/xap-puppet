@@ -11,12 +11,14 @@ define xap::gs_agent(
   if $kernel == 'windows' {
     # lookup service rule
     windows_firewall::exception { 'LookupService':
-    ensure     => present,
-      direction  => 'in',
-      action     => 'Allow',
-      enabled    => 'yes',
-      protocol   => 'UDP',
-      local_port => "${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}",
+    ensure         => present,
+      direction    => 'in',
+      action       => 'Allow',
+      enabled      => 'yes',
+      protocol     => 'UDP',
+      local_port   => "${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}",
+      display_name =>  'Lookup service',
+      description  => "Inbound rule for Lookup service. [UDP ${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}]",
     }
     # webster rule
     windows_firewall::exception { 'Webster':
@@ -26,6 +28,8 @@ define xap::gs_agent(
       enabled    => 'yes',
       protocol   => 'TCP',
       local_port => "${xap::params::com_gigaspaces_start_httpPort}",
+      display_name =>  'Webster',
+      description  => "Inbound rule for Webster. [TCP ${xap::params::com_gigaspaces_start_httpPort}]",
     }
     # LRMI port range rule
      windows_firewall::exception { 'LRMI':
@@ -35,6 +39,8 @@ define xap::gs_agent(
       enabled    => 'yes',
       protocol   => 'TCP',
       local_port => "${xap::params::com_gs_transport_protocol_lrmi_bind_port_start}-${xap::params::com_gs_transport_protocol_lrmi_bind_port_end}",
+      display_name =>  'lrmi bind port',
+      description  => "Inbound rule for lrmi bind port. [TCP ${xap::params::com_gs_transport_protocol_lrmi_bind_port_start}-${xap::params::com_gs_transport_protocol_lrmi_bind_port_end}]",
     }
     # JMX port range rule
         windows_firewall::exception { 'JMXPORTS':
@@ -44,6 +50,8 @@ define xap::gs_agent(
       enabled    => 'yes',
       protocol   => 'TCP',
       local_port => "${xap::params::com_gigaspaces_system_registryPort}-${registryPort}",
+      display_name =>  'JMX registry ports',
+      description  => "Inbound rule for JMX registry ports. [TCP {xap::params::com_gigaspaces_system_registryPort}-${registryPort}]",
     }
   } else {
     # lookup service rule
