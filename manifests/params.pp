@@ -59,8 +59,8 @@ class xap::params {
 
   # configure firewall\
   $com_sun_jini_reggie_initialUnicastDiscoveryPort=4174
-  $com_gs_transport_protocol_lrmi_bind_port_start=7000
-  $com_gs_transport_protocol_lrmi_bind_port_end=7500
+  $com_gs_transport_protocol_lrmi_bind_port_start=8000
+  $com_gs_transport_protocol_lrmi_bind_port_end=8100
   $com_gigaspaces_system_registryPort=10098
   $com_gigaspaces_start_httpPort=9813
   $com_gs_webui_port=8099

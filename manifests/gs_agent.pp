@@ -11,7 +11,7 @@ define xap::gs_agent(
   if $kernel == 'windows' {
     # lookup service rule
     windows_firewall::exception { 'LookupService':
-      ensure     => present,
+    ensure     => present,
       direction  => 'in',
       action     => 'Allow',
       enabled    => 'yes',
@@ -28,7 +28,7 @@ define xap::gs_agent(
       local_port => "${xap::params::com_gigaspaces_start_httpPort}",
     }
     # LRMI port range rule
-    windows_firewall::exception { 'LRMI':
+     windows_firewall::exception { 'LRMI':
       ensure     => present,
       direction  => 'in',
       action     => 'Allow',
@@ -37,7 +37,7 @@ define xap::gs_agent(
       local_port => "${xap::params::com_gs_transport_protocol_lrmi_bind_port_start}-${xap::params::com_gs_transport_protocol_lrmi_bind_port_end}",
     }
     # JMX port range rule
-    windows_firewall::exception { 'JMXPORTS':
+        windows_firewall::exception { 'JMXPORTS':
       ensure     => present,
       direction  => 'in',
       action     => 'Allow',
