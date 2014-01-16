@@ -1,16 +1,16 @@
 class xap::params {
 
-  $jdk_version = '7'
-  $jdk_update ='45'
-  $jdk_home = "jdk1.${jdk_version}.0_${jdk_update}"
-  $jdk_arch = $hardwaremodel ? {
+  $jdk_version = '7' # jdk version
+  $jdk_update ='45'  # jdk update
+  $jdk_home = "jdk1.${jdk_version}.0_${jdk_update}" # jdk home
+  $jdk_arch = $hardwaremodel ? { # node 32bit or 64bit
     'i686'   => 'i586',
     default => 'x64',
   }
 
-  $jdk_name="jdk-${jdk_version}u${jdk_update}-${kernel}-${jdk_arch}"
+  $jdk_name="jdk-${jdk_version}u${jdk_update}-${kernel}-${jdk_arch}" # jdk file name
 
-  $jdk_file = $kernel ? {
+  $jdk_file = $kernel ? { # jdk file name with extension
     'windows' => "${jdk_name}.exe",
     default   => "${jdk_name}.tar.gz",
   }

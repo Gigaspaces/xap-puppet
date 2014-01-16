@@ -1,14 +1,14 @@
 define xap::gs_agent(
   $name       = 'gs_agent',
-  $global_lus = 0,
-  $lus        = 0,
-  $global_gsm = 0,
-  $gsm        = 0,
-  $gsc        = 0,
+  $g_lus = 0,
+  $l_lus        = 0,
+  $g_gsm = 0,
+  $l_gsm        = 0,
+  $l_gsc        = 0,
 ) {
-  $registryPort = $xap::params::com_gigaspaces_system_registryPort + $global_lus + $lus + $global_gsm + $gsm + $gsc -1
+  $registryPort = $xap::params::com_gigaspaces_system_registryPort + $g_lus + $l_lus + $g_gsm + $l_gsm + $l_gsc -1
 
-  $args = "gsa.global.lus ${global_lus} gsa.lus ${lus} gsa.global.gsm ${global_gsm} gsa.gsm ${gsm} gsa.gsc ${gsc}"
+  $args = "gsa.global.lus ${g_lus} gsa.lus ${l_lus} gsa.global.gsm ${g_gsm} gsa.gsm ${l_gsm} gsa.gsc ${l_gsc}"
 
   $command_line = $kernel ? {
     'windows' => "cmd.exe /c start /min ${xap::params::config_dir}/bin/gs-agent.bat ${args} & type NUL > ${xap::params::config_dir}/bin/gs-agent.lock",
