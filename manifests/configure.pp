@@ -29,7 +29,14 @@ define xap::configure(
     file {"${xap::params::config_dir}/work":
         ensure => directory,
     } ->
-
+    
+    # configure setenv
+    file{"${xap::params::config_dir}/bin/locker.${xap::params::extension}":
+      ensure  => present,
+      mode    => 766,
+      content =>  template("${module_name}/locker.${xap::params::extension}.erb"),
+    } ->
+    
     # configure setenv
     file{"${xap::params::config_dir}/bin/setenv.${xap::params::extension}":
       ensure  => present,

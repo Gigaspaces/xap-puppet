@@ -76,13 +76,13 @@ set JSHOMEDIR=<%= scope['xap::params::gigaspaces_xap_target'] %>
 if "%JSHOMEDIR%" == "" set JSHOMEDIR=%~dp0\..
 
 if "%1" == "javaversion"  (
-%JAVACMD% -cp "%~dp0\..\lib\required\gs-runtime.jar" com.gigaspaces.internal.utils.OutputJVMVersion
+%JAVACMD% -cp "%JSHOMEDIR%\lib\required\gs-runtime.jar" com.gigaspaces.internal.utils.OutputJVMVersion
 goto END
 )
 FOR /F "usebackq tokens=*" %%i IN (`"%~dp0\..\bin\setenv.bat" javaversion`) DO @set JAVA_VERSION=%%i
 
 if "%1" == "javavmname"  (
-%JAVACMD% -cp "%~dp0\..\lib\required\gs-runtime.jar" com.gigaspaces.internal.utils.OutputJVMName
+%JAVACMD% -cp "%JSHOMEDIR%\lib\required\gs-runtime.jar" com.gigaspaces.internal.utils.OutputJVMName
 goto END
 )
 FOR /F "usebackq tokens=*" %%i IN (`"%~dp0\..\bin\setenv.bat" javavmname`) DO @set JAVA_VM_NAME=%%i

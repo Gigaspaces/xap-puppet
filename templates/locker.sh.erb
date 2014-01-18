@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+count=`ps aux | grep $1 | grep -v grep | wc -l`
+
+exit $count

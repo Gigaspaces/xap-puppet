@@ -20,19 +20,23 @@ define xap::web_ui (
     }
   }
   $command_line = $kernel ? {
-    'windows' => "cmd.exe /c start /min ${xap::params::config_dir}/bin/gs-webui.bat & type NUL > ${xap::params::config_dir}/bin/gs-webui.lock",
-    default   => "${xap::params::config_dir}/bin/gs-webui.sh > dev /null 2>&1 & ! cat > ${xap::params::config_dir}/bin/gs-webui.lock & ! return 0"
+    'windows' => "cmd.exe /c start /min ${xap::params::config_dir}/bin/gs-webui.bat & start /min >&2 pause  >> ${xap::params::config_dir}/bin/gs-webui.lock",
+    default   => "${xap::params::config_dir}/bin/gs-webui.sh > /dev/null 2>&1 & ! return 0"
   }
-
   $path_sperator = $kernel ? {
     'windows' => ';',
     default   => ':',
   }
 
+  $onlyif_cmd = $kernel ? {
+   'windows' => "gs-webui.lock",
+   default=> "\"gs\\-webui\""
+  }
+
   # run gs-webui
   exec {"${web_name}":
        command  => $command_line ,
-       creates => "${xap::params::config_dir}/bin/gs-webui.lock",
+       onlyif   => "${xap::params::config_dir}/bin/locker.${xap::params::extension} ${onlyif_cmd}",
        path   => "$::path${path_sperator}${xap::params::config_dir}/bin${path_sperator}${gigaspaces_xap_target}/bin",
   }
 }

@@ -11,11 +11,16 @@ define xap::gs_agent(
   $args = "gsa.global.lus ${g_lus} gsa.lus ${l_lus} gsa.global.gsm ${g_gsm} gsa.gsm ${l_gsm} gsa.gsc ${l_gsc}"
 
   $command_line = $kernel ? {
-    'windows' => "cmd.exe /c start /min ${xap::params::config_dir}/bin/gs-agent.bat ${args} & type NUL > ${xap::params::config_dir}/bin/gs-agent.lock",
-    default   => "${xap::params::config_dir}/bin/gs-agent.sh ${args} > /dev/null 2>&1 & ! cat > ${xap::params::config_dir}/bin/gs-agent.lock & ! return 0"
-  }
+    'windows' => "cmd.exe /c start /min ${xap::params::config_dir}/bin/gs-agent.bat ${args} & start /min >&2 pause  >> ${xap::params::config_dir}/bin/gs-agent.lock",
+     default   => "${xap::params::config_dir}/bin/gs-agent.sh ${args} > /dev/null 2>&1 & ! return 0",
+ }
 
-  $path_sperator = $kernel ? {
+ $onlyif_cmd = $kernel ? {
+   'windows' => "gs-agent.lock",
+   default=> "\"gs\\-agent\""
+ }
+
+ $path_sperator = $kernel ? {
     'windows' => ';',
     default   => ':',
   }
@@ -64,7 +69,7 @@ define xap::gs_agent(
       local_port => "${xap::params::com_gigaspaces_system_registryPort}-${registryPort}",
       display_name =>  'JMX registry ports',
       description  => "Inbound rule for JMX registry ports. [TCP {xap::params::com_gigaspaces_system_registryPort}-${registryPort}]",
-    } 
+    }
   } else {
     # lookup service rule
     firewall{"000 open port ${xap::params::com_sun_jini_reggie_initialUnicastDiscoveryPort}":
@@ -94,8 +99,8 @@ define xap::gs_agent(
 
   # run gs-agent
   exec {"${name}":
-       command => "${command_line}" ,
-       creates => "${xap::params::config_dir}/bin/gs-agent.lock",
-       path    => "$::path${path_sperator}${xap::params::config_dir}/bin${path_sperator}${xap::params::gigaspaces_xap_target}/bin",
+       command  => "${command_line}" ,
+       onlyif   => "${xap::params::config_dir}/bin/locker.${xap::params::extension} ${onlyif_cmd}",
+       path     => "$::path${path_sperator}${xap::params::config_dir}/bin${path_sperator}${xap::params::gigaspaces_xap_target}/bin",
   }
 }
